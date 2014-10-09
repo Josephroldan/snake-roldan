@@ -7,4 +7,10 @@ and open the template in the editor.
     Created on : Oct 3, 2014, 8:14:37 AM
     Author     : Student
 */
-
+#game-screen{
+    display: block
+}
+body{
+    border: 0;
+    margin: 0;
+}
