@@ -33,12 +33,18 @@ function snakeInitialize (){
     
     for(var index = 0; index < snakeLength; index++) {
     
-   snake.push(
-           x:
-                ) }
+   snake.push({
+       x:index,
+       y:0
+   })
+           
+                 }
 }
 function snakeDraw (){
-    
+  for(var index = 0; index < snake.Length; index++) {
+      context.fillStyle = "black";
+      context.fillRect(snake[index].x*snakeSize, snake[index]);
+  }  
 }
 function snakeUpdate (){
     
