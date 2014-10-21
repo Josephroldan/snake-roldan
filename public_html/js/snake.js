@@ -8,8 +8,8 @@ var screenheight;
 
 gameInitialize();
 snakeInitialize();
-gameDraw();
-snakeDraw();
+gameLoop();
+
 
 
 
