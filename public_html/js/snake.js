@@ -8,7 +8,8 @@ var screenheight;
 
 gameInitialize();
 snakeInitialize();
-gameLoop();
+setInterval(gameLoop,30/1000);
+
 
 
 
@@ -24,6 +25,7 @@ function gameInitialize() {
     canvas.height = screenheight;
 }
 function gameLoop() {
+gameDraw();
 snakeUpdate();
 snakeDraw();
 }
@@ -63,4 +65,7 @@ var snakeTail = snake.pop();
 snakeTail.x = snakeHeadX;
 snakeTail.y = snakeHeadY;
 snake.unshift(snakeTail);
+}
+function foodDraw(){
+    
 }
