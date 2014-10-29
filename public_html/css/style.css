@@ -18,3 +18,16 @@ body{
     position: absolute;
     visibility: hidden;
 }
+h1, h3 {
+    font-family: 'Permanent Marker', cursive;
+    color:white;
+}
+.title{
+    font-size: 67px;
+}
+#restartButton{
+    font-size: 52px;
+    text-align: center;
+    border: 5px solid white;
+    
+}
