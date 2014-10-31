@@ -2,29 +2,33 @@ var snake;
 var snakeSize;
 var snakeLength;
 var snakeDirection;
-
+// primordial variables used throughout the code
 var food;
-
+//food variable
 var context;
 var screenWidth;
 var screenHeight;
-
+//fundamental parameter variables
 var gameState;
 var gameOverMenu;
-
+var playHUD;
+var restartButton;
+var scoreBoard;
+//my newest varibles for recent changes
+startMenu();
 gameInitialize();
 snakeInitialize();
 foodInitialize();
 setInterval(gameLoop, 1000 / 30);
 
-
+//this calls most off the functions and sets speed
 
 
 
 function gameInitialize() {
     var canvas = element = document.getElementById("game-screen");
     context = canvas.getContext("2d");
-
+    /*this is my canvas being drawn*/
     screenWidth = window.innerWidth;
     screenHeight = window.innerHeight;
 
@@ -32,20 +36,34 @@ function gameInitialize() {
     canvas.height = screenHeight;
 
     document.addEventListener("keydown", keyboardHandeler);
-    setState("PLAY");
+   
     gameOverMenu = document.getElementById("gameOver");
+    restartButton = document.getElementById("restartButton");
+    restartButton.addEventListener("click", restart);
+    playHUD = document.getElementById("playHUD");
+     scoreBoard=document.getElementById("scoreboard")
+
+    setState("PLAY");
 }
+//main hub of entire game programs the canvas arrowkeys and more
 function gameLoop() {
     gameDraw();
+scoreboard();
+
     if (gameState === "PLAY") {
         snakeUpdate();
         snakeDraw();
         foodDraw();
     }
 }
-
-
-
+// this loops the game and helps restart button
+function restart() {
+    snakeInitialize();
+    foodInitialize();
+    hideMenu(gameOverMenu);
+    setState('PLAY');
+}
+//programs restart button
 
 function gameDraw() {
     context.fillStyle = "rgb(208,188,232)";
@@ -55,7 +73,7 @@ function gameDraw() {
 }
 
 
-
+//this draws the game
 
 function snakeInitialize() {
     snake = [];
@@ -70,17 +88,17 @@ function snakeInitialize() {
         });
     }
 }
-
+//initializes snake
 
 
 function snakeDraw() {
     for (var index = 0; index < snake.length; index++) {
         console.log("draw");
-        context.fillStyle = "red";
+        context.fillStyle = "black";
         context.fillRect(snake[index].x * snakeSize, snake[index].y * snakeSize, snakeSize, snakeSize);
     }
 }
-
+//draws snake
 
 
 function snakeUpdate() {
@@ -109,6 +127,7 @@ function snakeUpdate() {
 
     checkFoodColisions(snakeHeadX, snakeHeadY);
     checkWallCollisions(snakeHeadX, snakeHeadY);
+    snakecollide(snakeHeadX, snakeHeadY);
 
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
@@ -116,7 +135,7 @@ function snakeUpdate() {
     snake.unshift(snakeTail);
 }
 
-
+//main program because it updates entire game
 
 function foodInitialize() {
     food = {
@@ -125,15 +144,15 @@ function foodInitialize() {
     };
     snakeFoodPositiion();
 }
-
+//initializes food and calls position
 
 
 function foodDraw() {
-    context.fillStyle = "blue";
+    context.fillStyle = "black";
     context.fillRect(food.x * snakeSize, food.y * snakeSize, snakeSize, snakeSize);
 }
 
-
+//draws the food
 
 function snakeFoodPositiion() {
     var randomX = Math.floor(Math.random() * screenWidth);
@@ -141,7 +160,7 @@ function snakeFoodPositiion() {
     food.x = Math.floor(randomX / snakeSize);
     food.y = Math.floor(randomY / snakeSize);
 }
-
+//helps randomize food
 
 
 function keyboardHandeler(event) {
@@ -159,7 +178,7 @@ function keyboardHandeler(event) {
         snakeDirection = "left";
     }
 }
-
+//allows my arrow keys to move snake
 
 function checkFoodColisions(snakeHeadX, snakeHeadY) {
     if (snakeHeadX === food.x && snakeHeadY === food.y) {
@@ -174,13 +193,24 @@ function checkFoodColisions(snakeHeadX, snakeHeadY) {
         food.y = Math.floor(randomY / snakeSize);
     }
 }
+//this function helps randomize the food 
 function checkWallCollisions(snakeHeadX, snakeHeadY) {
-    if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0) {
-        if (snakeHeadY * snakeSize >= screenHeight);
-            
+    if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0 || snakeHeadY * snakeSize >= screenHeight || snakeHeadY * snakeSize < 0) {
+
+
         setState("GAME OVER");
     }
+//this allows my line of code to have wall collisions
+}
+function snakecollide(snakeHeadX, snakeHeadY) {
+    for (var index = 1; index < snake.length; index++) {
+        if (snakeHeadX == snake[index].x && snakeHeadY == snake[index.y]) {
+            setState("GAME OVER");
+            return;
 
+//            this allows snake collisions
+        }
+    }
 }
 
 
@@ -190,12 +220,31 @@ function setState(state) {
     gameState = state;
     showMenu(state);
 }
-
-function displayMenu(menu){
+//this sets my game states
+function displayMenu(menu) {
+    console.log(menu);
     menu.style.visibility = "visible";
 }
-function showMenu(state){
-  if(state == "GAME OVER"){
-    displayMenu(gameOverMenu);  
-  }
+//this shows my visibility patterns
+function showMenu(state) {
+    console.log(state);
+    if (state == "GAME OVER") {
+        displayMenu(gameOverMenu);
+    }
+    else if (state == "PLAY") {
+        displayMenu(playHUD);
+    }
+//this allows my play HUD and menu to show
+}
+
+function hideMenu(menu) {
+    menu.style.visibility = "hidden"
+}
+//used to hide menu
+function startMenu(menu) {
+
+}
+//used to be the start menu 
+function scoreboard(){
+    scoreBoard.innerHTML= "length"+snakeLength;
 }
