@@ -11,11 +11,13 @@ var screenHeight;
 //fundamental parameter variables
 var gameState;
 var gameOverMenu;
+var gameMenu;
 var playHUD;
 var restartButton;
+var startButton;
 var scoreBoard;
 //my newest varibles for recent changes
-startMenu();
+
 gameInitialize();
 snakeInitialize();
 foodInitialize();
@@ -36,19 +38,21 @@ function gameInitialize() {
     canvas.height = screenHeight;
 
     document.addEventListener("keydown", keyboardHandeler);
-   
+
+    gameMenu= document.getElementById("startScreen");
     gameOverMenu = document.getElementById("gameOver");
     restartButton = document.getElementById("restartButton");
+    startButton = document.getElementById("startButton");
     restartButton.addEventListener("click", restart);
     playHUD = document.getElementById("playHUD");
-     scoreBoard=document.getElementById("scoreboard")
+    scoreBoard = document.getElementById("scoreboard");
 
-    setState("PLAY");
+    setState("START");
 }
 //main hub of entire game programs the canvas arrowkeys and more
 function gameLoop() {
     gameDraw();
-scoreboard();
+    scoreboard();
 
     if (gameState === "PLAY") {
         snakeUpdate();
@@ -64,7 +68,12 @@ function restart() {
     setState('PLAY');
 }
 //programs restart button
-
+function start(){
+    snakeInitialize();
+     foodInitialize();
+    hideMenu(gameMenu);
+    setState('PLAY');
+}
 function gameDraw() {
     context.fillStyle = "rgb(208,188,232)";
     context.fillRect(0, 0, screenWidth, screenHeight);
@@ -171,10 +180,10 @@ function keyboardHandeler(event) {
     else if (event.keyCode == "40" && snakeDirection != "up") {
         snakeDirection = "down";
     }
-    else if (event.keyCode == "38") {
+    else if (event.keyCode == "38" && snakeDirection != "down") {
         snakeDirection = "up";
     }
-    else if (event.keyCode == "37") {
+    else if (event.keyCode == "37" && snakeDirection != "right") {
         snakeDirection = "left";
     }
 }
@@ -228,23 +237,22 @@ function displayMenu(menu) {
 //this shows my visibility patterns
 function showMenu(state) {
     console.log(state);
-    if (state == "GAME OVER") {
-        displayMenu(gameOverMenu);
+    if (state == "START") {
+        displayMenu(gameMenu);
     }
     else if (state == "PLAY") {
         displayMenu(playHUD);
+    }else{
+        displayMenu(gameOverMenu);
     }
+    
 //this allows my play HUD and menu to show
 }
 
 function hideMenu(menu) {
     menu.style.visibility = "hidden"
 }
-//used to hide menu
-function startMenu(menu) {
-
-}
-//used to be the start menu 
-function scoreboard(){
-    scoreBoard.innerHTML= "length"+snakeLength;
+//used to hide menu 
+function scoreboard() {
+    scoreBoard.innerHTML = "length" + snakeLength;
 }

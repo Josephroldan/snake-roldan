@@ -7,22 +7,26 @@ and open the template in the editor.
     Created on : Oct 3, 2014, 8:14:37 AM
     Author     : Student
 */
-#game-screen{
-    display: block
-}
-//this shapes the game screen
-body{
-    border: 0;
-    margin: 0;
-}
-//this removes the borders and margins
-#gameOver,#playHUD{
+#gameOver, #playHUD{
     position: absolute;
     visibility: hidden;
     padding-left: 350px;
     padding-top: 150px;
-    //this gives visibility to my sccreens and play hud
+    /*this gives visibility to my sccreens and play hud*/
 }
+#startScreen{
+    visibility: hidden;
+}
+#game-screen{
+    display: block;
+}
+/*this shapes the game screen*/
+body{
+    border: 0;
+    margin: 0;
+}
+/*this removes the borders and margins*/
+
 h1,h2, h3 {
     font-family: 'Permanent Marker', cursive;
     color:black;
@@ -33,7 +37,6 @@ h1,h2, h3 {
 #restartButton{
     font-size: 52px;
     text-align: center;
-    border: 2px solid white;
     border-radius: 10px;
 }
-//this customizes my restart button
+/*this customizes my restart button*/
